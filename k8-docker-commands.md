@@ -55,26 +55,27 @@ kubectl label [—overwrite] <type> KEY_1=VAL_1 ….
 kubectl run <name> —image=image
 
 #Create load-balancer service
+kubectl apply -f deployment.yml
+kubectl expose deployment tomcat-deployment --type=NodePort (or)
 kubectl expose deployment tomcat-deployment --type=LoadBalancer --port=8080 --target-port=8080 --name=tomat-load-balancer
-
-Commands For Cut & Paste
-kubectl scale —replicas=4 deployment/tomcat-deployment 
-kubectl expose deployment tomcat-deployment --type=NodePort
-kubectl expose deployment tomcat-deployment —type=LoadBalancer —port=8080 —target-port=8080 —name tomcat-load-balancer
 kubectl describe services tomcat-load-balancer
-kubectl describe services tomcat-load-balancer
+minikube service tomcat-load-balancer --url
+kubectl scale —replicas=4 deployment/tomcat-deployment
 
 
-Commands For Cut & Paste
+#rollout and deployment
 kubectl get deployments
 kubectl rollout status deployment tomcat-deployment
 kubectl set image deployment/tomcat-deployment tomcat=tomcat:9.0.1
 kubectl rollout history deployment/tomcat-deployment --revision=2
-
 kubectl describe deployment tomcat-deployment
 
-kubectl proxy
-kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
-kubectl delete deployment tomcat-deployment
+#dashboard
+kubectl proxy ( access k8 dashboard url)
+kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml ( create dashboard )
 
-mongodb exercise
+#delete minikube
+kubectl delete deployment tomcat-deployment
+* To ensure you are starting with a clean slate: `minikube delete; sudo rm -rf ~/.minikube; sudo rm -rf ~/.kube`
+
+
